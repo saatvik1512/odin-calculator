@@ -62,6 +62,7 @@ for (const btn of operatorButtons){
 const equalButton = document.querySelector('.equalsbutton');
 equalButton.addEventListener('click', () => {
     displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
+    buttonClickCounter = 0;
 })
 
 function operator(num1, sign, num2){
