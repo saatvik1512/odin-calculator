@@ -5,11 +5,14 @@ const operatorButtons = document.querySelectorAll('.operatorbutton');
 const displayScreen = document.querySelector('.screen');
 displayScreen.innerHTML = 0;
 
+const historyScreen = document.querySelector('.previous-history');
+
 //create 3 variables for 3 parameters
 let operator1, operand, operator2;
 
 //button checker
 let buttonClickCounter = 0;
+
 
 //clicked => clears display
 const clearButton = document.querySelector('.clearButton');
@@ -57,18 +60,26 @@ for (const btn of operatorButtons){
         }
         operator1 = displayScreen.innerHTML;
         operand = e.target.innerHTML;
-        operator2 = 0;
+        operator2 = '';
         displayScreen.innerHTML += e.target.innerText;
+        historyScreen.innerHTML = displayScreen.innerHTML;
         decimalButton.disabled = false;
     })
 }
 
 const equalButton = document.querySelector('.equalsbutton');
-equalButton.addEventListener('click', () => {
-    displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
-    operator1 = Number(displayScreen.innerHTML)
-    buttonClickCounter = 0;
-    decimalButton.disabled = false;
+equalButton.addEventListener('click', (e) => {
+    if (!operand || !operator1 || !operator2){
+        displayScreen.innerHTML = "enter full parameters";
+    }
+    else {
+        historyScreen.innerHTML = displayScreen.innerHTML;
+        displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
+        operator1 = Number(displayScreen.innerHTML);
+        buttonClickCounter = 0;
+        decimalButton.disabled = false;
+    }
+
 })
 
 function operator(num1, sign, num2){
@@ -85,7 +96,7 @@ function operator(num1, sign, num2){
 }
 
 function add(a, b){
-    return a + b;
+    return (Math.round(((a + b) + Number.EPSILON) * 100) / 100);;
 }
 
 function substract(a, b){
