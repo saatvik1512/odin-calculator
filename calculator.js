@@ -18,6 +18,15 @@ let buttonClickCounter = 0;
 const clearButton = document.querySelector('.clearButton');
 clearButton.onclick = () => {
     displayScreen.innerHTML = 0;
+    operator1 = 0;
+    operator2 = 0;
+    operand = "";
+    buttonClickCounter = 0;
+}
+
+const signChanger = document.querySelector('.negative');
+signChanger.onclick = function (){
+    displayScreen.innerHTML = Number(displayScreen.innerText) * -1;
 }
 
 for (const btn of numberedButtons){
