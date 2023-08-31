@@ -81,8 +81,6 @@ function operator(num1, sign, num2){
             return multiply(num1, num2);
         case "/":
             return divide(num1, num2);
-        case "%":
-            return remainder(num1, num2);
     }
 }
 
@@ -99,9 +97,5 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    return ((Math.round(((a / b) + Number.EPSILON) * 100) / 100))
-}
-
-function remainder(a, b){
-    return ((Math.round(((a % b) + Number.EPSILON) * 100) / 100))
+    return a / b;
 }
