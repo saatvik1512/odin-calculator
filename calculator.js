@@ -1,6 +1,3 @@
-//select the numbered buttons
-const numberedButtons = document.querySelectorAll('.numberbutton');
-
 //select the operator buttons
 const operatorButtons = document.querySelectorAll('.operatorbutton');
 
@@ -22,6 +19,7 @@ clearButton.onclick = () => {
     operator2 = 0;
     operand = "";
     buttonClickCounter = 0;
+    decimalButton.disabled = false;
 }
 
 const signChanger = document.querySelector('.negative');
@@ -29,9 +27,17 @@ signChanger.onclick = function (){
     displayScreen.innerHTML = Number(displayScreen.innerText) * -1;
 }
 
+const decimalButton = document.querySelector('.decimal');
+decimalButton.classList.add('numberbutton')
+decimalButton.onclick = function (){
+    decimalButton.disabled = true;
+}
+
+//select the numbered buttons
+const numberedButtons = document.querySelectorAll('.numberbutton');
 for (const btn of numberedButtons){
     btn.addEventListener('click', (e) => {
-        //if zero present => remove it 
+        //if zero present => remove it
         if (displayScreen.innerHTML == 0){
             displayScreen.innerHTML = e.target.innerText;
         }
@@ -45,9 +51,6 @@ for (const btn of numberedButtons){
 for (const btn of operatorButtons){
     btn.addEventListener('click', (e) => {
         buttonClickCounter++;
-        // when user clicks operator button more than one time 
-            //operator1 must be the result of previous 
-            //operator2 must be 0
         if(buttonClickCounter > 1){
             operator1 = operator(Number(operator1), operand, Number(operator2));
             displayScreen.innerHTML = operator1
@@ -56,13 +59,16 @@ for (const btn of operatorButtons){
         operand = e.target.innerHTML;
         operator2 = 0;
         displayScreen.innerHTML += e.target.innerText;
+        decimalButton.disabled = false;
     })
 }
 
 const equalButton = document.querySelector('.equalsbutton');
 equalButton.addEventListener('click', () => {
     displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
+    operator1 = Number(displayScreen.innerHTML)
     buttonClickCounter = 0;
+    decimalButton.disabled = false;
 })
 
 function operator(num1, sign, num2){
@@ -80,5 +86,5 @@ function add(a, b){
 }
 
 function substract(a, b){
-    return a - b;
+    return Math.round((a - b) * 100) / 100;
 }
