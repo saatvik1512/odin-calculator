@@ -72,12 +72,17 @@ equalButton.addEventListener('click', () => {
 })
 
 function operator(num1, sign, num2){
-    if (sign == '+'){
-        return add(num1, num2);
-    }
-    else if (sign == '-')
-    {
-        return substract(num1, num2);
+    switch (sign) {
+        case "+":
+            return add(num1, num2);
+        case "-":
+            return substract(num1, num2);
+        case "*":
+            return multiply(num1, num2);
+        case "/":
+            return divide(num1, num2);
+        case "%":
+            return remainder(num1, num2);
     }
 }
 
@@ -86,5 +91,17 @@ function add(a, b){
 }
 
 function substract(a, b){
-    return (a-b).toFixed(Math.max(a.toString().length, b.toString().length) - 2);
+    return (Math.round(((a - b) + Number.EPSILON) * 100) / 100);
+}
+
+function multiply(a, b){
+    return ((Math.round(((a * b) + Number.EPSILON) * 100) / 100))
+}
+
+function divide(a, b){
+    return ((Math.round(((a / b) + Number.EPSILON) * 100) / 100))
+}
+
+function remainder(a, b){
+    return ((Math.round(((a % b) + Number.EPSILON) * 100) / 100))
 }
