@@ -6,16 +6,20 @@ const operatorButtons = document.querySelectorAll('.operatorbutton');
 
 //select the screen which will show display
 const displayScreen = document.querySelector('.screen');
-
 displayScreen.innerHTML = 0;
-
-//for button clicked more than once
 
 //create 3 variables for 3 parameters
 let operator1, operand, operator2;
 
+//button checker
 let buttonClickCounter = 0;
-//when clicked => console log number
+
+//clicked => clears display
+const clearButton = document.querySelector('.clearButton');
+clearButton.onclick = () => {
+    displayScreen.innerHTML = 0;
+}
+
 for (const btn of numberedButtons){
     btn.addEventListener('click', (e) => {
         //if zero present => remove it 
