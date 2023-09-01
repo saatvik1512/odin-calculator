@@ -24,6 +24,9 @@ clearButton.onclick = () => {
     operand = "";
     buttonClickCounter = 0;
     decimalButton.disabled = false;
+    document.querySelectorAll('#opbutton').forEach((btn) => {
+        btn.disabled = false;
+    })
 }
 
 const signChanger = document.querySelector('.negative');
@@ -39,6 +42,7 @@ decimalButton.onclick = function (){
 
 const backSpace = document.querySelector('.cancelButton');
 backSpace.onclick = function (){
+    buttonClickCounter--;
     displayScreen.innerHTML = displayScreen.innerHTML.substring(0, displayScreen.innerHTML.length - 1);
     operator1 = displayScreen.textContent.slice(0, displayScreen.innerHTML.indexOf(operand));
     operand = displayScreen.textContent.slice(displayScreen.innerHTML.indexOf(operand), displayScreen.innerHTML.indexOf(operand)+1);
@@ -73,6 +77,7 @@ for (const btn of operatorButtons){
         displayScreen.innerHTML += e.target.innerText;
         historyScreen.innerHTML = displayScreen.innerHTML;
         decimalButton.disabled = false;
+        errorMessage();
     })
 }
 
@@ -88,7 +93,7 @@ equalButton.addEventListener('click', (e) => {
         buttonClickCounter = 0;
         decimalButton.disabled = false;
     }
-
+    errorMessage();
 })
 
 function operator(num1, sign, num2){
@@ -121,4 +126,12 @@ function divide(a, b){
         return ((Math.round(((a / b) + Number.EPSILON) * 100) / 100));
     }
     return "LMAO"
+}
+
+function errorMessage(){
+    if (displayScreen.innerHTML.includes("NaN") || displayScreen.innerHTML.includes("undefined") || displayScreen.innerHTML.includes("parameters")){
+        document.querySelectorAll('#opbutton').forEach((btn) => {
+            btn.disabled = true;
+        })
+    }
 }
