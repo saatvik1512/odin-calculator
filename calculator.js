@@ -17,16 +17,7 @@ let buttonClickCounter = 0;
 //clicked => clears display
 const clearButton = document.querySelector('.clearButton');
 clearButton.onclick = () => {
-    displayScreen.innerHTML = 0;
-    historyScreen.innerHTML = "";
-    operator1 = 0;
-    operator2 = 0;
-    operand = "";
-    buttonClickCounter = 0;
-    decimalButton.disabled = false;
-    document.querySelectorAll('#opbutton').forEach((btn) => {
-        btn.disabled = false;
-    })
+    setEscape()
 }
 
 const signChanger = document.querySelector('.negative');
@@ -42,89 +33,26 @@ decimalButton.onclick = function (){
 
 const backSpace = document.querySelector('.cancelButton');
 backSpace.onclick = function (){
-    buttonClickCounter--;
-    displayScreen.innerHTML = displayScreen.innerHTML.substring(0, displayScreen.innerHTML.length - 1);
-    operator1 = displayScreen.textContent.slice(0, displayScreen.innerHTML.indexOf(operand));
-    operand = displayScreen.textContent.slice(displayScreen.innerHTML.indexOf(operand), displayScreen.innerHTML.indexOf(operand)+1);
-    operator2 = displayScreen.textContent.slice( displayScreen.innerHTML.indexOf(operand)+1);
+    backspaceOperator();
 }
 
 //select the numbered buttons
 const numberedButtons = document.querySelectorAll('.numberbutton');
 for (const btn of numberedButtons){
     btn.addEventListener('click', (e) => {
-        //if zero present => remove it
-        if (displayScreen.innerHTML == 0){
-            displayScreen.innerHTML = e.target.innerText;
-        }
-        else {
-            displayScreen.innerHTML += e.target.innerText;
-            operator2 += e.target.innerText;
-        }
+        getNumber(btn);
     })
 }
 
 for (const btn of operatorButtons){
     btn.addEventListener('click', (e) => {
-        buttonClickCounter++;
-        if(buttonClickCounter > 1){
-            operator1 = operator(Number(operator1), operand, Number(operator2));
-            displayScreen.innerHTML = operator1
-        }
-        operator1 = displayScreen.innerHTML;
-        operand = e.target.innerHTML;
-        operator2 = '';
-        displayScreen.innerHTML += e.target.innerText;
-        historyScreen.innerHTML = displayScreen.innerHTML;
-        decimalButton.disabled = false;
-        errorMessage();
-    })
-    btn.addEventListener('keydown', (event) => {
-        if(event.key == btn.innerHTML){
-            buttonClickCounter++;
-            if(buttonClickCounter > 1){
-                operator1 = operator(Number(operator1), operand, Number(operator2));
-                displayScreen.innerHTML = operator1
-            }
-            operator1 = displayScreen.innerHTML;
-            operand = e.target.innerHTML;
-            operator2 = '';
-            displayScreen.innerHTML += e.target.innerText;
-            historyScreen.innerHTML = displayScreen.innerHTML;
-            decimalButton.disabled = false;
-            errorMessage();
-        }
+        getOperator(btn);
     })
 }
 
 const equalButton = document.querySelector('.equalsbutton');
-equalButton.addEventListener('click', (e) => {
-    if (!operand || !operator1 || !operator2){
-        displayScreen.innerHTML = "enter full parameters";
-    }
-    else {
-        historyScreen.innerHTML = displayScreen.innerHTML;
-        displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
-        operator1 = Number(displayScreen.innerHTML);
-        buttonClickCounter = 0;
-        decimalButton.disabled = false;
-    }
-    errorMessage();
-})
-equalButton.addEventListener('keydown', (event) => {
-    if(event.key == equalButton.innerHTML){
-        if (!operand || !operator1 || !operator2){
-            displayScreen.innerHTML = "enter full parameters";
-        }
-        else {
-            historyScreen.innerHTML = displayScreen.innerHTML;
-            displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
-            operator1 = Number(displayScreen.innerHTML);
-            buttonClickCounter = 0;
-            decimalButton.disabled = false;
-        }
-        errorMessage();
-    }
+equalButton.addEventListener('click', () => {
+    setAnswer()
 })
 
 function operator(num1, sign, num2){
@@ -166,3 +94,86 @@ function errorMessage(){
         })
     }
 }
+
+
+function getNumber(e){
+    if (displayScreen.innerHTML == 0){
+            displayScreen.innerHTML = e.innerText;
+        }
+        else {
+            displayScreen.innerHTML += e.innerText;
+            operator2 += e.innerText;
+        }
+}
+
+function getOperator(e){
+    buttonClickCounter++;
+    if(buttonClickCounter > 1){
+        operator1 = operator(Number(operator1), operand, Number(operator2));
+        displayScreen.innerHTML = operator1
+    }
+    operator1 = displayScreen.innerHTML;
+    operand = e.innerHTML;
+    operator2 = '';
+    displayScreen.innerHTML += e.innerText;
+    historyScreen.innerHTML = displayScreen.innerHTML;
+    decimalButton.disabled = false;
+    errorMessage();
+}
+
+function setAnswer(){
+    if (!operand || !operator1 || !operator2){
+        displayScreen.innerHTML = "enter full parameters";
+    }
+    else {
+        historyScreen.innerHTML = displayScreen.innerHTML;
+        displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
+        operator1 = Number(displayScreen.innerHTML);
+        buttonClickCounter = 0;
+        decimalButton.disabled = false;
+    }
+    errorMessage();
+}
+
+function backspaceOperator(){
+    buttonClickCounter--;
+    displayScreen.innerHTML = displayScreen.innerHTML.substring(0, displayScreen.innerHTML.length - 1);
+    operator1 = displayScreen.textContent.slice(0, displayScreen.innerHTML.indexOf(operand));
+    operand = displayScreen.textContent.slice(displayScreen.innerHTML.indexOf(operand), displayScreen.innerHTML.indexOf(operand)+1);
+    operator2 = displayScreen.textContent.slice( displayScreen.innerHTML.indexOf(operand)+1);
+}
+
+function setEscape(){
+    displayScreen.innerHTML = 0;
+    historyScreen.innerHTML = "";
+    operator1 = 0;
+    operator2 = 0;
+    operand = "";
+    buttonClickCounter = 0;
+    decimalButton.disabled = false;
+    document.querySelectorAll('#opbutton').forEach((btn) => {
+        btn.disabled = false;
+    })
+}
+
+window.addEventListener('keydown', (event) => {
+    numberedButtons.forEach((item) => {
+        if(event.key == item.innerText){
+            getNumber(item)
+        }
+    })
+    operatorButtons.forEach((item) => {
+        if(event.key == item.innerText){
+            getOperator(item)
+        }
+    })
+    if(event.key == "Enter"){
+        setAnswer();
+    }
+    else if(event.key == "Backspace"){
+        backspaceOperator();
+    }
+    else if(event.key == "Escape") {
+        setEscape();
+    }
+})
