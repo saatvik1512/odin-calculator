@@ -79,6 +79,22 @@ for (const btn of operatorButtons){
         decimalButton.disabled = false;
         errorMessage();
     })
+    btn.addEventListener('keydown', (event) => {
+        if(event.key == btn.innerHTML){
+            buttonClickCounter++;
+            if(buttonClickCounter > 1){
+                operator1 = operator(Number(operator1), operand, Number(operator2));
+                displayScreen.innerHTML = operator1
+            }
+            operator1 = displayScreen.innerHTML;
+            operand = e.target.innerHTML;
+            operator2 = '';
+            displayScreen.innerHTML += e.target.innerText;
+            historyScreen.innerHTML = displayScreen.innerHTML;
+            decimalButton.disabled = false;
+            errorMessage();
+        }
+    })
 }
 
 const equalButton = document.querySelector('.equalsbutton');
@@ -94,6 +110,21 @@ equalButton.addEventListener('click', (e) => {
         decimalButton.disabled = false;
     }
     errorMessage();
+})
+equalButton.addEventListener('keydown', (event) => {
+    if(event.key == equalButton.innerHTML){
+        if (!operand || !operator1 || !operator2){
+            displayScreen.innerHTML = "enter full parameters";
+        }
+        else {
+            historyScreen.innerHTML = displayScreen.innerHTML;
+            displayScreen.innerHTML = operator(Number(operator1), operand, Number(operator2));
+            operator1 = Number(displayScreen.innerHTML);
+            buttonClickCounter = 0;
+            decimalButton.disabled = false;
+        }
+        errorMessage();
+    }
 })
 
 function operator(num1, sign, num2){
