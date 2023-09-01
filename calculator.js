@@ -18,6 +18,7 @@ let buttonClickCounter = 0;
 const clearButton = document.querySelector('.clearButton');
 clearButton.onclick = () => {
     displayScreen.innerHTML = 0;
+    historyScreen.innerHTML = "";
     operator1 = 0;
     operator2 = 0;
     operand = "";
@@ -34,6 +35,14 @@ const decimalButton = document.querySelector('.decimal');
 decimalButton.classList.add('numberbutton')
 decimalButton.onclick = function (){
     decimalButton.disabled = true;
+}
+
+const backSpace = document.querySelector('.cancelButton');
+backSpace.onclick = function (){
+    displayScreen.innerHTML = displayScreen.innerHTML.substring(0, displayScreen.innerHTML.length - 1);
+    operator1 = displayScreen.textContent.slice(0, displayScreen.innerHTML.indexOf(operand));
+    operand = displayScreen.textContent.slice(displayScreen.innerHTML.indexOf(operand), displayScreen.innerHTML.indexOf(operand)+1);
+    operator2 = displayScreen.textContent.slice( displayScreen.innerHTML.indexOf(operand)+1);
 }
 
 //select the numbered buttons
@@ -108,5 +117,8 @@ function multiply(a, b){
 }
 
 function divide(a, b){
-    return a / b;
+    if (b){
+        return ((Math.round(((a / b) + Number.EPSILON) * 100) / 100));
+    }
+    return "LMAO"
 }
