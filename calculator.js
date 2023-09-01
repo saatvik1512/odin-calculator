@@ -1,10 +1,8 @@
-//select the operator buttons
-const operatorButtons = document.querySelectorAll('.operatorbutton');
-
 //select the screen which will show display
 const displayScreen = document.querySelector('.screen');
 displayScreen.innerHTML = 0;
 
+//previous move
 const historyScreen = document.querySelector('.previous-history');
 
 //create 3 variables for 3 parameters
@@ -13,6 +11,30 @@ let operator1, operand, operator2;
 //button checker
 let buttonClickCounter = 0;
 
+const backSpace = document.querySelector('.cancelButton');
+backSpace.onclick = function (){
+    backspaceOperator();
+}
+
+//select the numbered buttons
+const numberedButtons = document.querySelectorAll('.numberbutton');
+for (const btn of numberedButtons){
+    btn.addEventListener('click', (e) => {
+        getNumber(btn);
+    })
+}
+
+const operatorButtons = document.querySelectorAll('.operatorbutton');
+for (const btn of operatorButtons){
+    btn.addEventListener('click', (e) => {
+        getOperator(btn);
+    })
+}
+
+const equalButton = document.querySelector('.equalsbutton');
+equalButton.addEventListener('click', () => {
+    setAnswer()
+})
 
 //clicked => clears display
 const clearButton = document.querySelector('.clearButton');
@@ -31,28 +53,26 @@ decimalButton.onclick = function (){
     decimalButton.disabled = true;
 }
 
-const backSpace = document.querySelector('.cancelButton');
-backSpace.onclick = function (){
-    backspaceOperator();
-}
-
-//select the numbered buttons
-const numberedButtons = document.querySelectorAll('.numberbutton');
-for (const btn of numberedButtons){
-    btn.addEventListener('click', (e) => {
-        getNumber(btn);
+window.addEventListener('keydown', (event) => {
+    numberedButtons.forEach((item) => {
+        if(event.key == item.innerText){
+            getNumber(item)
+        }
     })
-}
-
-for (const btn of operatorButtons){
-    btn.addEventListener('click', (e) => {
-        getOperator(btn);
+    operatorButtons.forEach((item) => {
+        if(event.key == item.innerText){
+            getOperator(item)
+        }
     })
-}
-
-const equalButton = document.querySelector('.equalsbutton');
-equalButton.addEventListener('click', () => {
-    setAnswer()
+    if(event.key == "Enter"){
+        setAnswer();
+    }
+    else if(event.key == "Backspace"){
+        backspaceOperator();
+    }
+    else if(event.key == "Escape") {
+        setEscape();
+    }
 })
 
 function operator(num1, sign, num2){
@@ -155,25 +175,3 @@ function setEscape(){
         btn.disabled = false;
     })
 }
-
-window.addEventListener('keydown', (event) => {
-    numberedButtons.forEach((item) => {
-        if(event.key == item.innerText){
-            getNumber(item)
-        }
-    })
-    operatorButtons.forEach((item) => {
-        if(event.key == item.innerText){
-            getOperator(item)
-        }
-    })
-    if(event.key == "Enter"){
-        setAnswer();
-    }
-    else if(event.key == "Backspace"){
-        backspaceOperator();
-    }
-    else if(event.key == "Escape") {
-        setEscape();
-    }
-})
