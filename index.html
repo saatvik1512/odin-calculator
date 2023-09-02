@@ -4,35 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="calculator.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Borel&family=Handjet&family=Lilita+One&family=Special+Elite&family=Urbanist&display=swap" rel="stylesheet">
     <script src="calculator.js" defer></script>
     <title>TOP-Calculator</title>
 </head>
 <body>
     <div class="main-container">
+        <a href="https://github.com/saatvik1512" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg" alt="logo"></a>
         <div class="joint-screens">
             <div class="previous-history"></div>
             <div class="screen"></div>
         </div>
         <div class="allButtons">
             <button class="clearButton">AC</button>
-            <button class="numberbutton" id="button">1</button>
-            <button class="numberbutton" id="button">2</button>
-            <button class="numberbutton" id="button">3</button>
-            <button class="numberbutton" id="button">4</button>
-            <button class="numberbutton" id="button">5</button>
-            <button class="numberbutton" id="button">6</button>
-            <button class="numberbutton" id="button">7</button>
-            <button class="numberbutton" id="button">8</button>
-            <button class="numberbutton" id="button">9</button>
-            <button class="numberbutton" id="button">0</button>
-            <button class="operatorbutton" id="opbutton">+</button>
-            <button class="operatorbutton" id="opbutton">-</button>
-            <button class="operatorbutton" id="opbutton">*</button>
-            <button class="operatorbutton" id="opbutton">/</button>
-            <button class="equalsbutton" id="opbutton">=</button>
-            <button class="negative" id="opbutton">+/-</button>
-            <button class="decimal" id="opbutton">.</button>
-            <button class="cancelButton" id="opbutton">X</button>
+
+            <div class="container1">
+                <button class="cancelButton" id="opbutton">X</button>
+                <button class="negative" id="opbutton">+/-</button>
+            </div>
+
+            <div class="container2">
+                <button class="numberbutton" id="button">7</button>
+                <button class="numberbutton" id="button">8</button>
+                <button class="numberbutton" id="button">9</button>
+                <button class="operatorbutton" id="opbutton">+</button>
+            </div>
+
+            <div class="container3">
+                <button class="numberbutton" id="button">4</button>
+                <button class="numberbutton" id="button">5</button>
+                <button class="numberbutton" id="button">6</button>
+                <button class="operatorbutton" id="opbutton">-</button>
+            </div>
+
+            <div class="container4">
+                <button class="numberbutton" id="button">1</button>
+                <button class="numberbutton" id="button">2</button>
+                <button class="numberbutton" id="button">3</button>
+                <button class="operatorbutton" id="opbutton">*</button>
+            </div>
+
+            <div class="container5">
+                <button class="numberbutton" id="button">0</button>
+                <button class="decimal" id="opbutton">.</button>
+                <button class="equalsbutton" id="opbutton">=</button>
+                <button class="operatorbutton" id="opbutton">/</button>
+            </div>
         </div>
     </div>
 </body>

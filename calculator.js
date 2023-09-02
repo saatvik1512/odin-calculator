@@ -50,7 +50,7 @@ signChanger.onclick = function (){
 const decimalButton = document.querySelector('.decimal');
 decimalButton.classList.add('numberbutton')
 decimalButton.onclick = function (){
-    decimalButton.disabled = true;
+    decimalOperator();
 }
 
 window.addEventListener('keydown', (event) => {
@@ -72,6 +72,9 @@ window.addEventListener('keydown', (event) => {
     }
     else if(event.key == "Escape") {
         setEscape();
+    }
+    else if (event.key == "."){
+        decimalOperator()
     }
 })
 
@@ -108,8 +111,11 @@ function divide(a, b){
 }
 
 function errorMessage(){
-    if (displayScreen.innerHTML.includes("NaN") || displayScreen.innerHTML.includes("undefined") || displayScreen.innerHTML.includes("parameters")){
+    if (displayScreen.innerHTML.includes("NaN") || displayScreen.innerHTML.includes("undefined") || displayScreen.innerHTML.includes("parameters") || displayScreen.innerHTML.includes("Infinity")){
         document.querySelectorAll('#opbutton').forEach((btn) => {
+            btn.disabled = true;
+        })
+        document.querySelectorAll('.numberbutton').forEach((btn) => {
             btn.disabled = true;
         })
     }
@@ -174,4 +180,13 @@ function setEscape(){
     document.querySelectorAll('#opbutton').forEach((btn) => {
         btn.disabled = false;
     })
+    document.querySelectorAll('.numberbutton').forEach((btn) => {
+        btn.disabled = false;
+    })
+
+}
+
+function decimalOperator(){
+    getNumber(decimalButton)
+    decimalButton.disabled = true;
 }
