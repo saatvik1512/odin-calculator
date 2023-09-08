@@ -87,3 +87,10 @@ a img{
     background-color: white;
     border-radius: 50%;
 }
+
+.clearButton {
+    border-radius: 50%;
+    align-self: center;
+    padding: 1rem;
+    margin: 0.3rem;
+}
